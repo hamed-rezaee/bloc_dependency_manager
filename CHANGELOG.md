@@ -1,3 +1,7 @@
+## 1.0.5
+
+- Update readme
+
 ## 1.0.4
 
 - Add GitHub Actions CI

@@ -1,12 +1,12 @@
 # Bloc Dependency Manager
 
-**Bloc Dependency Manager** is a centralized dependency management package designed to simplify the handling, registration, and lifecycle management of BLoCs (Business Logic Components) in Dart and Flutter applications. It provides an organized way to manage BLoC dependencies, add custom state listeners, and handle event dispatching through a core state management system.
+**Bloc Dependency Manager** is a centralized dependency management package designed to simplify the handling, registration, and lifecycle management of Blocs/Cubits in Dart and Flutter applications. It provides an organized way to manage BLoC dependencies, add custom state listeners, and handle event dispatching through a core state management system.
 
 This package aims to help developers avoid repetitive setup and cleanup tasks, minimize dependency conflicts, and create scalable and maintainable architectures in Flutter applications.
 
 ## How It Works
 
-The **Bloc Dependency Manager** package manages BLoCs and their state communications through a central `BlocManager`, using several key classes and design patterns to simplify dependency handling, state changes, and event-driven communication.
+The **Bloc Dependency Manager** package manages Blocs and their state communications through a central `BlocManager`, using several key classes and design patterns to simplify dependency handling, state changes, and event-driven communication.
 
 ### Architecture Overview
 
@@ -18,23 +18,23 @@ The **Bloc Dependency Manager** package manages BLoCs and their state communicat
 ### Core Design Patterns
 
 - **Singleton Pattern**: Ensures only one `BlocManager` instance exists across the app.
-- **Dependency Injection**: BLoCs are registered with `BlocManager` and can be lazily or eagerly instantiated.
+- **Dependency Injection**: Blocs are registered with `BlocManager` and can be lazily or eagerly instantiated.
 - **Observer Pattern**: `BlocManager` notifies listeners of state changes, allowing them to respond independently.
 - **Strategy Pattern**: `StateEmitters` handle different strategies for managing state changes.
 
 ## Key Features
 
-- **Centralized BLoC Management:** Register and manage all BLoCs through a single BlocManager instance.
-- **Lazy and Eager Registration:** Register BLoCs only when needed or immediately, based on your app’s requirements.
-- **State Emission and Custom Listeners:** Attach state listeners and create custom emitters to manage and track state changes across BLoCs.
-- **Automated Resource Disposal:** Dispose of BLoCs and related listeners automatically to prevent memory leaks.
+- **Centralized BLoC Management:** Register and manage all Blocs through a single BlocManager instance.
+- **Lazy and Eager Registration:** Register Blocs only when needed or immediately, based on your app’s requirements.
+- **State Emission and Custom Listeners:** Attach state listeners and create custom emitters to manage and track state changes across Blocs.
+- **Automated Resource Disposal:** Dispose of Blocs and related listeners automatically to prevent memory leaks.
 - **Seamless Integration with BLoC Library:** Works smoothly with the bloc package to manage state across applications.
 
 ## How It Works
 
 The **Bloc Dependency Manager** operates through several primary components:
 
-1. **BlocManager:** A singleton class that manages the lifecycle of BLoCs, storing them in a repository and handling their registration and disposal.
+1. **BlocManager:** A singleton class that manages the lifecycle of Blocs, storing them in a repository and handling their registration and disposal.
 2. **BaseStateEmitter:** A base class for custom state emitters, which trigger specific actions when a BLoC's state changes.
 3. **StateDispatcher:** Registers and manages custom emitters, allowing multiple state listeners to react to changes in the central BlocManager.
 4. **BaseStateListener:** An abstract class for defining behaviors for state listeners, allowing you to implement custom response methods to BLoC state changes.
@@ -87,28 +87,23 @@ Here, `CounterStateListener` defines the methods that will be triggered when spe
 Use a `CounterStateEmitter` to broadcast state changes to listeners:
 
 ```dart
-class CounterStateEmitter extends BaseStateEmitter<CounterStateListener, CounterBloc> {
+class CounterStateEmitter
+    extends BaseStateEmitter<CounterStateListener, CounterBloc> {
   CounterStateEmitter(super.blocManager);
 
   @override
   void handleStates({
     required CounterStateListener stateListener,
     required Object? state,
-  }) {
-    switch (state) {
-      case CounterState.reset:
-        stateListener.onCounterStateReset();
-        break;
-      case CounterState.increment:
-        stateListener.onCounterStateChange(CounterState.increment);
-        break;
-      case CounterState.decrement:
-        stateListener.onCounterStateChange(CounterState.decrement);
-        break;
-      default:
-        throw UnimplementedError();
-    }
-  }
+  }) =>
+      switch (state) {
+        CounterState.reset => stateListener.onCounterStateReset(),
+        CounterState.increment =>
+          stateListener.onCounterStateChange(CounterState.increment),
+        CounterState.decrement =>
+          stateListener.onCounterStateChange(CounterState.decrement),
+        _ => throw UnimplementedError(),
+      };
 }
 ```
 
@@ -142,30 +137,31 @@ Register `LoggerBloc`, `CounterBloc`, and the custom `CounterStateEmitter` in `B
 
 ```dart
 Future<void> main() async {
-  // Register blocs with the BlocManager
+  // Register all the blocs.
   BlocManager().register(LoggerBloc());
   BlocManager().register(CounterBloc());
 
-  // Register the state emitter to manage state emissions for CounterBloc.
+  // Register the state emitter for the [CounterBloc].
   StateDispatcher(BlocManager()).register<CounterBloc, CounterStateEmitter>(
-    (BaseBlocManager blocManager) => CounterStateEmitter(blocManager as BlocManager),
+    (BaseBlocManager blocManager) =>
+        CounterStateEmitter(blocManager as BlocManager),
   );
 
-  // Listen to LoggerBloc's state to see logged messages
+  // Fetch the [LoggerBloc] and listen to its state changes.
   BlocManager().fetch<LoggerBloc>().stream.listen(print);
 
-  // Fetch CounterBloc and dispatch actions
-  final counterBloc = BlocManager().fetch<CounterBloc>();
-  counterBloc.decrement();
-  await Future<void>.delayed(Duration(seconds: 1));
-  counterBloc.increment();
-  await Future<void>.delayed(Duration(seconds: 1));
-  counterBloc.reset();
+  // Fetch the [CounterBloc] and dispatch some events.
+  BlocManager().fetch<CounterBloc>().decrement();
+  await Future<void>.delayed(const Duration(seconds: 1));
+  BlocManager().fetch<CounterBloc>().increment();
+  await Future<void>.delayed(const Duration(seconds: 1));
+  BlocManager().fetch<CounterBloc>().reset();
+  await Future<void>.delayed(const Duration(seconds: 1));
 
-  // Clean up all registered BLoCs
+  // Dispose [BlocManager] to clean up resources.
   await BlocManager().dispose();
 
-  print('All BLoCs disposed.');
+  print('All blocs disposed.');
 }
 ```
 
@@ -181,7 +177,7 @@ Future<void> main() async {
 
 ### BlocManager
 
-The main singleton class for managing the lifecycle of BLoCs and providing centralized access to registered instances.
+The main singleton class for managing the lifecycle of Blocs and providing centralized access to registered instances.
 
 #### Methods
 
@@ -254,7 +250,7 @@ The main singleton class for managing the lifecycle of BLoCs and providing centr
 
 ### StateDispatcher
 
-The `StateDispatcher` class is a helper that registers state emitters for specified BLoCs, allowing listeners to be triggered on BLoC state changes.
+The `StateDispatcher` class is a helper that registers state emitters for specified Blocs, allowing listeners to be triggered on BLoC state changes.
 
 #### Methods
 
@@ -284,7 +280,7 @@ The `BaseStateEmitter` is an abstract class for creating custom state emitters t
 
 ### BaseStateListener
 
-An abstract class for creating listener interfaces to respond to specific state changes in BLoCs. Implementing classes define the actions that occur in response to BLoC state changes.
+An abstract class for creating listener interfaces to respond to specific state changes in Blocs. Implementing classes define the actions that occur in response to BLoC state changes.
 
 #### Methods
 
