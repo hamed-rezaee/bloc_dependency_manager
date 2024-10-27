@@ -1,0 +1,16 @@
+name: bloc_dependency_manager_example
+description: Bloc Dependency Manager Example.
+
+version: 1.0.0
+publish_to: "none"
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  bloc: ^8.1.4
+  bloc_dependency_manager:
+    path: ../
+
+dev_dependencies:
+  very_good_analysis: ^6.0.0
