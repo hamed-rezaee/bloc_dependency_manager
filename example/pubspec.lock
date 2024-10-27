@@ -15,23 +15,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
-  collection:
-    dependency: transitive
-    description:
-      name: collection
-      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.18.0"
-  equatable:
-    dependency: transitive
-    description:
-      name: equatable
-      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
+    version: "1.0.4"
   meta:
     dependency: transitive
     description:

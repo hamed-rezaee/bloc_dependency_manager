@@ -1,3 +1,15 @@
+## 1.0.4
+
+- Add GitHub Actions CI
+
+## 1.0.3
+
+- Remove `equatable` package dependency
+
+## 1.0.2
+
+- Update package description
+
 ## 1.0.1
 
 - Remove Flutter SDK dependency
