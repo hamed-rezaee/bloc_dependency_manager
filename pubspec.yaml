@@ -1,8 +1,11 @@
 name: bloc_dependency_manager
 description: This is a package that helps manage Bloc and Cubit dependencies. It is based on the Bloc package and utilizes the Observer design pattern to manage dependencies.
 
-version: 1.0.3
+version: 1.0.4
+
 homepage: https://github.com/hamed-rezaee
+repository: https://github.com/hamed-rezaee/bloc_dependency_manager
+issue_tracker: https://github.com/hamed-rezaee/bloc_dependency_manager/issues
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

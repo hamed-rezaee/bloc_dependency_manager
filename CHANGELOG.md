@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Add GitHub Actions CI
+
 ## 1.0.3
 
 - Remove `equatable` package dependency
