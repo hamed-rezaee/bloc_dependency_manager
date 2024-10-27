@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Remove `equatable` package dependency
+
 ## 1.0.2
 
 - Update package description
