@@ -19,7 +19,7 @@ abstract class BaseStateEmitter<L extends BaseStateListener,
     if (stateListener is L) {
       handleStates(
         stateListener: stateListener,
-        state: state ?? blocManager.fetch<B>().state,
+        state: state ?? blocManager.resolve<B>().state,
       );
     }
   }

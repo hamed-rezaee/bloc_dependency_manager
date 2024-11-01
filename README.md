@@ -147,15 +147,15 @@ Future<void> main() async {
         CounterStateEmitter(blocManager as BlocManager),
   );
 
-  // Fetch the [LoggerBloc] and listen to its state changes.
-  BlocManager().fetch<LoggerBloc>().stream.listen(print);
+  // Resolve the [LoggerBloc] and listen to its state changes.
+  BlocManager().resolve<LoggerBloc>().stream.listen(print);
 
-  // Fetch the [CounterBloc] and dispatch some events.
-  BlocManager().fetch<CounterBloc>().decrement();
+  // Resolve the [CounterBloc] and dispatch some events.
+  BlocManager().resolve<CounterBloc>().decrement();
   await Future<void>.delayed(const Duration(seconds: 1));
-  BlocManager().fetch<CounterBloc>().increment();
+  BlocManager().resolve<CounterBloc>().increment();
   await Future<void>.delayed(const Duration(seconds: 1));
-  BlocManager().fetch<CounterBloc>().reset();
+  BlocManager().resolve<CounterBloc>().reset();
   await Future<void>.delayed(const Duration(seconds: 1));
 
   // Dispose [BlocManager] to clean up resources.
@@ -192,12 +192,12 @@ The main singleton class for managing the lifecycle of Blocs and providing centr
   - **Parameters**:
     - `Function predicate`: The function to create the BLoC instance when needed.
     - `String key` (optional): The identifier for the BLoC; defaults to `defaultKey`.
-- **`fetch<B>()`**
+- **`resolve<B>()`**
 
   - Retrieves a registered BLoC by its type and optional key.
   - **Parameters**:
-    - `String key` (optional): Identifier for the BLoC to fetch; defaults to `defaultKey`.
-  - **Returns**: The fetched BLoC instance.
+    - `String key` (optional): Identifier for the BLoC to resolve; defaults to `defaultKey`.
+  - **Returns**: The resolved BLoC instance.
   - **Throws**: `BlocManagerException` if the BLoC is not registered.
 
 - **`isBlocRegistered<B>()`**

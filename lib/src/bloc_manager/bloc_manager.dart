@@ -42,7 +42,7 @@ class BlocManager implements BaseBlocManager {
     String key = BaseBlocManager.defaultKey,
   }) {
     if (_hasRepository<B>(key)) {
-      return fetch<B>(key);
+      return resolve<B>(key);
     }
 
     /// This future is added to make sure the state emits in the correct order,
@@ -60,7 +60,7 @@ class BlocManager implements BaseBlocManager {
       _hasFactory<B>(key) || _hasRepository<B>(key);
 
   @override
-  B fetch<B extends GenericBloc>([String key = BaseBlocManager.defaultKey]) =>
+  B resolve<B extends GenericBloc>([String key = BaseBlocManager.defaultKey]) =>
       _hasRepository<B>(key)
           ? _repository[_getKey<B>(key)]! as B
           : _hasFactory<B>(key)
@@ -77,7 +77,7 @@ class BlocManager implements BaseBlocManager {
       return;
     }
 
-    final bloc = fetch<B>(key);
+    final bloc = resolve<B>(key);
 
     _subscriptions[_getKey<B>(listenerKey)] =
         bloc.stream.listen((Object state) => handler(state));
