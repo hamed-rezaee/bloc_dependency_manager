@@ -14,15 +14,15 @@ Future<void> main() async {
         CounterStateEmitter(blocManager as BlocManager),
   );
 
-  // Fetch the [LoggerBloc] and listen to its state changes.
-  BlocManager().fetch<LoggerBloc>().stream.listen(print);
+  // Resolve the [LoggerBloc] and listen to its state changes.
+  BlocManager().resolve<LoggerBloc>().stream.listen(print);
 
-  // Fetch the [CounterBloc] and dispatch some events.
-  BlocManager().fetch<CounterBloc>().decrement();
+  // Resolve the [CounterBloc] and dispatch some events.
+  BlocManager().resolve<CounterBloc>().decrement();
   await Future<void>.delayed(const Duration(seconds: 1));
-  BlocManager().fetch<CounterBloc>().increment();
+  BlocManager().resolve<CounterBloc>().increment();
   await Future<void>.delayed(const Duration(seconds: 1));
-  BlocManager().fetch<CounterBloc>().reset();
+  BlocManager().resolve<CounterBloc>().reset();
   await Future<void>.delayed(const Duration(seconds: 1));
 
   // Dispose [BlocManager] to clean up resources.
