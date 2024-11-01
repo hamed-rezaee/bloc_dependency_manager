@@ -1,3 +1,7 @@
+## 1.0.6
+
+- Rename `fetch` method to `resolve` in `BlocManager` class (breaking change)
+
 ## 1.0.5
 
 - Update readme

@@ -37,8 +37,8 @@ abstract class BaseBlocManager {
   /// Indicates that bloc of type [B] is registered or not.
   bool isBlocRegistered<B extends GenericBloc>(String key);
 
-  /// Fetches a bloc from bloc manager.
-  B fetch<B extends GenericBloc>([String key]);
+  /// Resolves the bloc of type [B].
+  B resolve<B extends GenericBloc>([String key]);
 
   /// Adds a listener to bloc.
   ///

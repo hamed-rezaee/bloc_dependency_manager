@@ -19,10 +19,10 @@ void main() {
   });
 
   group(BlocManager, () {
-    test('should register and fetch cubit from bloc manager.', () {
+    test('should register and resolve cubit from bloc manager.', () {
       blocManager.lazyRegister<_TestCubit>(_TestCubit.new);
 
-      expect(blocManager.fetch<_TestCubit>(), isA<Cubit<bool>>());
+      expect(blocManager.resolve<_TestCubit>(), isA<Cubit<bool>>());
     });
 
     blocTest<_TestCubit, bool>(
@@ -33,7 +33,7 @@ void main() {
           handler: (Object state) => expect(state, isTrue),
         );
 
-        return blocManager.fetch<_TestCubit>();
+        return blocManager.resolve<_TestCubit>();
       },
       act: (_TestCubit cubit) => <void>[cubit.trueState()],
       expect: () => <bool>[true],
@@ -89,18 +89,18 @@ void main() {
 
     group(BlocManagerException, () {
       test(
-        'fetch throws BlocManagerException when bloc is not registered.',
+        'resolve throws BlocManagerException when bloc is not registered.',
         () => expect(
-          () => blocManager.fetch<GenericBloc>(),
+          () => blocManager.resolve<GenericBloc>(),
           throwsA(isA<BlocManagerException>()),
         ),
       );
 
-      test('fetch throws BlocManagerException when bloc key is invalid.', () {
+      test('resolve throws BlocManagerException when bloc key is invalid.', () {
         blocManager.register<GenericBloc>(_TestCubit(), key: 'test_key');
 
         expect(
-          () => blocManager.fetch<GenericBloc>('invalid_key'),
+          () => blocManager.resolve<GenericBloc>('invalid_key'),
           throwsA(isA<BlocManagerException>()),
         );
       });
