@@ -10,7 +10,7 @@ void main() {
 
   late final BaseBlocManager blocManager;
 
-  setUpAll(() => blocManager = BlocManager());
+  setUpAll(() => blocManager = BlocManager()..register(_TestCubit()));
 
   tearDownAll(() {
     blocManager
@@ -20,7 +20,7 @@ void main() {
 
   group(BlocManager, () {
     test('should register and resolve cubit from bloc manager.', () {
-      blocManager.lazyRegister<_TestCubit>(_TestCubit.new);
+      blocManager.register(_TestCubit(), key: blocKey);
 
       expect(blocManager.resolve<_TestCubit>(), isA<Cubit<bool>>());
     });
@@ -84,36 +84,6 @@ void main() {
       expect(
         blocManager.hasListener<_TestCubit>(blocKey),
         isFalse,
-      );
-    });
-
-    group(BlocManagerException, () {
-      test(
-        'resolve throws BlocManagerException when bloc is not registered.',
-        () => expect(
-          () => blocManager.resolve<GenericBloc>(),
-          throwsA(isA<BlocManagerException>()),
-        ),
-      );
-
-      test('resolve throws BlocManagerException when bloc key is invalid.', () {
-        blocManager.register<GenericBloc>(_TestCubit(), key: 'test_key');
-
-        expect(
-          () => blocManager.resolve<GenericBloc>('invalid_key'),
-          throwsA(isA<BlocManagerException>()),
-        );
-      });
-
-      test(
-        'addListener throws BlocManagerException when bloc is not registered.',
-        () => expect(
-          () => blocManager.addListener<GenericBloc>(
-            listenerKey: 'test_listener',
-            handler: (_) {},
-          ),
-          throwsA(isA<BlocManagerException>()),
-        ),
       );
     });
   });

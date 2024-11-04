@@ -26,15 +26,19 @@ class StateDispatcher {
     if (!blocManager.hasListener<B>(listenerKey)) {
       blocManager.addListener<B>(
         listenerKey: listenerKey,
-        handler: (Object state) => _dispatcher<E>(state),
+        handler: (Object state) => _dispatcher<B, E>(state),
       );
     }
   }
 
-  void _dispatcher<E extends GenericStateEmitter>(Object state) {
-    for (var index = 0; index < blocManager.repository.length; index++) {
+  void _dispatcher<B extends GenericBloc, E extends GenericStateEmitter>(
+    Object state,
+  ) {
+    final blocs = blocManager.repository.where((bloc) => bloc is! B).toList();
+
+    for (var index = 0; index < blocs.length; index++) {
       blocManager.emitCoreStates<E>(
-        bloc: blocManager.repository.entries.elementAt(index).value,
+        bloc: blocs[index],
         state: state,
       );
     }
