@@ -10,7 +10,7 @@ The **Bloc Dependency Manager** package manages Blocs and their state communicat
 
 ### Architecture Overview
 
-1. **`BlocManager`** - A singleton class that provides centralized BLoC registration, lazy loading, and listener management.
+1. **`BlocManager`** - A singleton class that provides centralized BLoC registration, and listener management.
 2. **`StateDispatcher`** - Manages and dispatches state emitters, which are used to handle and distribute BLoC state changes.
 3. **`BaseStateEmitter`** - An abstract base class for creating custom state emitters that define how different states should be handled for specific listeners.
 4. **`BaseStateListener`** - An interface to define actions for listeners to respond to BLoC state changes.
@@ -25,7 +25,6 @@ The **Bloc Dependency Manager** package manages Blocs and their state communicat
 ## Key Features
 
 - **Centralized BLoC Management:** Register and manage all Blocs through a single BlocManager instance.
-- **Lazy and Eager Registration:** Register Blocs only when needed or immediately, based on your app’s requirements.
 - **State Emission and Custom Listeners:** Attach state listeners and create custom emitters to manage and track state changes across Blocs.
 - **Automated Resource Disposal:** Dispose of Blocs and related listeners automatically to prevent memory leaks.
 - **Seamless Integration with BLoC Library:** Works smoothly with the bloc package to manage state across applications.
@@ -159,7 +158,8 @@ Future<void> main() async {
   await Future<void>.delayed(const Duration(seconds: 1));
 
   // Dispose [BlocManager] to clean up resources.
-  await BlocManager().dispose();
+  await BlocManager().dispose<LoggerBloc>();
+  await BlocManager().dispose<CounterBloc>();
 
   print('All blocs disposed.');
 }
@@ -182,16 +182,13 @@ The main singleton class for managing the lifecycle of Blocs and providing centr
 #### Methods
 
 - **`register<B>()`**
+
   - Registers a BLoC instance of type `B`.
   - **Parameters**:
     - `B bloc`: The BLoC instance to register.
     - `String key` (optional): The identifier for the BLoC; defaults to `defaultKey`.
   - **Returns**: The registered BLoC instance.
-- **`lazyRegister<B>()`**
-  - Registers a BLoC with a factory function, creating the instance only when it's first requested.
-  - **Parameters**:
-    - `Function predicate`: The function to create the BLoC instance when needed.
-    - `String key` (optional): The identifier for the BLoC; defaults to `defaultKey`.
+
 - **`resolve<B>()`**
 
   - Retrieves a registered BLoC by its type and optional key.

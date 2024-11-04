@@ -26,7 +26,8 @@ Future<void> main() async {
   await Future<void>.delayed(const Duration(seconds: 1));
 
   // Dispose [BlocManager] to clean up resources.
-  await BlocManager().dispose();
+  await BlocManager().dispose<LoggerBloc>();
+  await BlocManager().dispose<CounterBloc>();
 
   print('All blocs disposed.');
 }
