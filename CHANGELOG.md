@@ -1,3 +1,7 @@
+## 1.10.0
+
+- Add `GetIt` dependency injection
+
 ## 1.0.6
 
 - Rename `fetch` method to `resolve` in `BlocManager` class (breaking change)

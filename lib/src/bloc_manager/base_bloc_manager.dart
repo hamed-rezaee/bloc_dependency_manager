@@ -13,18 +13,7 @@ abstract class BaseBlocManager {
   static const String defaultKey = 'default';
 
   /// Stores registered blocs instances.
-  Map<String, GenericBloc> get repository;
-
-  /// Registers a bloc to bloc manager, the bloc will be instantiated whenever needed.
-  ///
-  /// [predicate] is required.
-  ///
-  /// [key] is registered bloc identifier,
-  /// you can omit this parameter if you need only one bloc instance of type [B] in the repository.
-  void lazyRegister<B extends GenericBloc>(
-    Function predicate, {
-    String key = defaultKey,
-  });
+  List<GenericBloc> get repository;
 
   /// Registers a bloc to bloc manager.
   ///
