@@ -1,3 +1,7 @@
+## 1.11.0
+
+- Update dependencies
+
 ## 1.10.0
 
 - Add `GetIt` dependency injection
