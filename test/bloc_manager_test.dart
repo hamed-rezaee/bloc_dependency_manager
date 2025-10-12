@@ -12,7 +12,7 @@ void main() {
 
   setUpAll(() => blocManager = BlocManager()..register(_TestCubit()));
 
-  tearDownAll(() {
+  tearDownAll(() async {
     blocManager
       ..dispose<_TestCubit>()
       ..dispose<_TestCubit>(blocKey);
