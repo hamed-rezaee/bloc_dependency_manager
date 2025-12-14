@@ -1,3 +1,7 @@
+## 1.11.1
+
+- update bloc and get_it dependencies to latest versions
+
 ## 1.11.0
 
 - Update dependencies
